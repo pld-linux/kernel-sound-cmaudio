@@ -41,19 +41,16 @@ Sterowniki do kart dźwiękowych opartych na C-Media.
 #%patch1 -p1
 
 cat > Makefile <<'EOF'
-obj-m := cmiaudio.o
-cmiaudio-objs := ali_5451.o ati.o cmi9738.o cmi9739.o cmi9761.o intel_ichx.o main.o sis_7018.o via_82cxxx.o
+obj-m := cmaudio.o
+cmaudio-objs := ali_5451.o ati.o cmi9738.o cmi9739.o cmi9761.o intel_ichx.o main.o sis_7018.o via_82cxxx.o
 EOF
 
 %build
-%build_kernel_modules -C . -m cmiaudio
+%build_kernel_modules -C . -m cmaudio
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
-#8810
-install au8810-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/au8810.o
-install au8810.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/au8810.o
+%install_kernel_modules -m cmaudio -d misc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -66,5 +63,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README ChangeLog
+%doc Readme.txt
 /lib/modules/%{_kernel_ver}/misc/*
