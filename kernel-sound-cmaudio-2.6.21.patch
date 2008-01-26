@@ -1,0 +1,14 @@
+--- cmaudio/main.c	2004-10-11 17:16:39.000000000 +0200
++++ cmaudio/main.c	2008-01-26 20:34:43.530864750 +0100
+@@ -2029,7 +2029,11 @@ static struct pci_driver cmaudio_driver 
+ 
+ static int __init init_cmaudio(void)
+ {
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,21)
++	return pci_register_driver(&cmaudio_driver);
++#else
+ 	return pci_module_init(&cmaudio_driver);
++#endif
+ }
+ 
+ static void __exit cmedia_cleanup_module (void)

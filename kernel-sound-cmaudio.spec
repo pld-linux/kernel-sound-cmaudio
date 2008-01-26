@@ -18,6 +18,7 @@ Group:		Base/Kernel
 Source0:	http://www.cmediadrivers.info/driver/Linux/Ac97/%{_orig_name}-%{version}.tar.bz2
 # Source0-md5:	60cc9412652205d0cfc827899298b68e
 URL:		http://www.cmediadrivers.info/driver/Linux/Ac97/
+Patch0:		kernel-sound-cmaudio-2.6.21.patch
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
 Requires(post,postun):	/sbin/depmod
@@ -38,6 +39,7 @@ Sterowniki do kart dźwiękowych opartych na C-Media.
 
 %prep
 %setup -q -n %{_orig_name}
+%patch0 -p1
 
 cat > Makefile <<'EOF'
 obj-m := cmaudio.o
@@ -45,7 +47,7 @@ cmaudio-objs := ali_5451.o ati.o cmi9738.o cmi9739.o cmi9761.o intel_ichx.o main
 EOF
 
 %build
-%build_kernel_modules -C . -m cmaudio
+%build_kernel_modules -m cmaudio
 
 %install
 rm -rf $RPM_BUILD_ROOT
