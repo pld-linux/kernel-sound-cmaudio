@@ -1,4 +1,7 @@
 #
+# TODO:
+# - compile configuraton program
+#
 # Conditional build:
 %bcond_without	dist_kernel		# without distribution kernel
 #
@@ -14,8 +17,6 @@ License:	GPL
 Group:		Base/Kernel
 Source0:	http://www.cmediadrivers.info/driver/Linux/Ac97/%{_orig_name}-%{version}.tar.bz2
 # Source0-md5:	60cc9412652205d0cfc827899298b68e
-# Patch0:		%{_orig_name}-Makefile.patch
-# Patch1:		%{name}-types.patch
 URL:		http://www.cmediadrivers.info/driver/Linux/Ac97/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
@@ -37,8 +38,6 @@ Sterowniki do kart dźwiękowych opartych na C-Media.
 
 %prep
 %setup -q -n %{_orig_name}
-#%patch0 -p1
-#%patch1 -p1
 
 cat > Makefile <<'EOF'
 obj-m := cmaudio.o
